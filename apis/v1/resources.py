@@ -3,6 +3,7 @@ from flask.views import MethodView
 from apis.v1 import api_v1
 from apis.v1.errors import api_abort, ValidationError
 from models import User
+from app import db
 
 def get_item_body():
     data = request.get_json()
@@ -39,8 +40,16 @@ class RegisterAPI(MethodView):
         if grant_type is None or grant_type.lower() != 'password':
             return api_abort(code=400, message='The grant type must be password.')
 
-        # TODO
-        user = User.query.filter_by
+        user = User.query.filter_by(name=username).first()
+        if not user:
+            # TODO
+            return
+
+        else:
+            # TODO how to generate id, password
+            # new_user = User(user_id=new_id)
+            db.session.add(new_user)
+            db.session.commit()
 
 
 api_v1.add_url_rule('/', view_func=IndexAPI.as_view('index'), methods=['GET'])
